@@ -1,4 +1,4 @@
-## RELATÓRIO DE IMPLEMENTAÇÃO DE SERVIÇOS AWS 💊
+## RELATÓRIO DE IMPLEMENTAÇÃO DE SERVIÇOS AWS (MIGRAÇÃO) 🚀
 
 Data: 03/12/2025
 Empresa: **Abstergo Industries**
@@ -7,64 +7,58 @@ Responsável: **Willian Ferreira**
 ---
 
 ## Introdução
-Este relatório apresenta o processo de implementação de ferramentas na empresa **Abstergo Industries**, uma **farmácia fictícia**, realizado por Willian Ferreira. O objetivo do projeto foi elencar **3 serviços AWS** com foco na **diminuição imediata de custos** operacionais.
+Este relatório apresenta a proposta de implementação inicial e migração para a AWS da empresa **Abstergo Industries**, uma farmácia que atualmente opera com infraestrutura **on-premises**. O objetivo é elencar **3 serviços AWS** que promovam a **eliminação de custos fixos de hardware**, aumentem a **segurança** e garantam a **continuidade do negócio**, representando uma redução de custos a longo prazo.
 
 ---
 
 ## Descrição do Projeto
-O projeto de implementação de ferramentas foi dividido em 3 etapas, cada uma focada em um serviço AWS distinto para otimização de custos, conforme a necessidade da gestão financeira.
+O projeto de migração para a nuvem será dividido em 3 etapas, focadas em mover a farmácia de um modelo *on-premises* (baseado em hardware próprio) para um modelo *cloud-native*.
 
-### Etapa 1: Otimização de Armazenamento
-- **Nome da ferramenta:** **Amazon S3 Glacier Instant Retrieval**
-- **Foco da ferramenta:** **Redução de custos de armazenamento** para dados acessados com pouca frequência, mas que precisam estar disponíveis rapidamente quando solicitados (e.g., registros de vendas antigos, histórico de pedidos de clientes, documentos fiscais anuais).
+### Etapa 1: Migração do Servidor de Aplicação
+- **Nome da ferramenta:** **Amazon Lightsail**
+- **Foco da ferramenta:** **Migração rápida e barata** de servidores de aplicação e *websites* simples (e.g., sistema de gestão e vendas básico) para a nuvem, com **custos fixos e previsíveis**.
 - **Descrição de caso de uso:**
 
-  A Abstergo Industries armazena um grande volume de **dados históricos** (como registros de transações de mais de 6 meses) no **Amazon S3 Standard**. Apesar de raramente acessados, esses dados geram um custo de armazenamento elevado.
+  A Abstergo Industries hoje opera seu sistema de gestão de estoque e vendas em um servidor físico local. A migração desse servidor para o **Amazon Lightsail** permite que a farmácia obtenha um Servidor Privado Virtual (VPS) pronto para uso, com preço mensal fixo e baixo (começando em $3.50/mês). Isso elimina imediatamente a necessidade de manutenção, energia e refrigeração do servidor físico local. O Lightsail simplifica a transição de um ambiente local para a nuvem.
 
-  A migração desses dados para o **S3 Glacier Instant Retrieval** permite uma redução significativa no custo de armazenamento por GB (aproximadamente 70-80% menos que o S3 Standard), mantendo a **latência de recuperação em milissegundos**, caso o gerente financeiro ou a área de compliance precise acessar rapidamente um registro antigo.
-
-  * **Ganho de Custo:** Economia mensal substancial no custo de armazenamento, transferindo dados "frios" para uma classe de armazenamento mais barata, sem comprometer a disponibilidade para buscas rápidas.
+  * **Ganho de Custo:** **Eliminação imediata do Capex** (compra de hardware) e redução de custos operacionais (energia, manutenção local, *downtime* não planejado) com um custo mensal de nuvem baixo e transparente.
 
 ---
 
-### Etapa 2: Otimização de Infraestrutura de Servidores
-- **Nome da ferramenta:** **Amazon EC2 Savings Plans**
-- **Foco da ferramenta:** **Redução de custos de computação** por meio do compromisso de uso contínuo de recursos EC2.
+### Etapa 2: Backup e Recuperação de Desastres
+- **Nome da ferramenta:** **AWS Backup** e **Amazon S3**
+- **Foco da ferramenta:** **Segurança e continuidade do negócio** através de *backups* automatizados e **Recuperação de Desastres (DR)** fora do local físico da farmácia.
 - **Descrição de caso de uso:**
 
-  A farmácia utiliza instâncias **Amazon EC2** para hospedar seu sistema de gestão de estoque, plataforma de vendas online e banco de dados. Foi identificado um **uso constante** (24/7) de instâncias básicas, mesmo que a carga de trabalho varie.
+  A farmácia armazena dados críticos (como registros de pacientes e transações financeiras) em discos locais, o que os torna vulneráveis a incêndios, falhas de hardware ou *ransomware*. O **AWS Backup** permite a criação de cópias seguras e automatizadas desses dados diretamente no **Amazon S3** (armazenamento durável e barato). Isso resolve o problema de **Recuperação de Desastres**, garantindo que, em caso de falha total do servidor local, o negócio possa ser restaurado rapidamente, atendendo a requisitos regulatórios.
 
-  A aquisição de um **EC2 Savings Plan** de 1 ano, comprometendo-se com um determinado gasto por hora em dólares (por exemplo, $5/hora de uso de computação), resulta em descontos significativos nas faturas do EC2 (até **66%** de desconto em comparação com o preço *On-Demand*). Este plano oferece flexibilidade de uso entre diferentes famílias, tamanhos, regiões e sistemas operacionais de EC2, maximizando a economia.
-
-  * **Ganho de Custo:** Diminuição imediata da taxa horária de instâncias EC2 utilizadas de forma contínua, transformando despesas variáveis em despesas previsíveis e com desconto.
+  * **Ganho de Custo:** **Redução do risco financeiro** devido a perda de dados e multas regulatórias. O custo de armazenamento no S3 é exponencialmente menor do que o custo de adquirir e manter um segundo *datacenter* para DR.
 
 
 
 ---
 
-### Etapa 3: Otimização de Recursos Ociosos
-- **Nome da ferramenta:** **AWS Compute Optimizer**
-- **Foco da ferramenta:** **Identificação e redimensionamento** de recursos superdimensionados (provisionamento excessivo) e ociosos, gerando recomendações específicas de economia.
+### Etapa 3: Modernização de Banco de Dados
+- **Nome da ferramenta:** **Amazon Relational Database Service (RDS) - PostgreSQL/MySQL**
+- **Foco da ferramenta:** **Performance, escalabilidade e gerenciamento de banco de dados**, eliminando a necessidade de um DBA (Administrador de Banco de Dados) interno.
 - **Descrição de caso de uso:**
 
-  Muitas vezes, as instâncias EC2 e os volumes EBS são provisionados com mais CPU e memória do que o necessário, resultando em "desperdício" de recursos (o recurso está pago, mas não está sendo utilizado). O **Compute Optimizer** analisa as métricas históricas de utilização da Abstergo Industries e recomenda o **tamanho de instância EC2 ideal** (como mudar de uma `m5.large` para uma `t3.medium`) e o **tipo/tamanho de volume EBS** mais eficiente para a carga de trabalho real.
+  O banco de dados local da farmácia (que armazena todo o catálogo, preços e histórico de vendas) exige manutenção constante e *patches* de segurança. Migrar esse banco de dados para o **Amazon RDS** significa que a AWS passa a gerenciar tarefas tediosas e caras, como *patching*, *backups* automáticos, monitoramento de falhas e *failovers*. Isso **libera tempo** da equipe de TI (ou do responsável técnico) para focar em tarefas de maior valor para o negócio.
 
-  A aplicação dessas recomendações de redimensionamento pode levar a uma redução de **10-30%** nos custos de computação e armazenamento sem afetar o desempenho.
-
-  * **Ganho de Custo:** Redução dos custos de instâncias e volumes de armazenamento/IOPS, garantindo que a farmácia pague apenas pelo poder de processamento e armazenamento que realmente utiliza.
+  * **Ganho de Custo:** **Redução de custos com pessoal** (funções de DBA são caras) e eliminação do custo de **licenciamento de *softwares*** de banco de dados (se migrado para opções de código aberto como PostgreSQL ou MySQL).
 
 ---
 
 ## Conclusão
-A implementação de ferramentas na empresa **Abstergo Industries** tem como esperado **a obtenção de descontos significativos no custo de armazenamento de dados (S3 Glacier Instant Retrieval), uma redução substancial nas taxas horárias de computação EC2 por meio de compromissos de uso (Savings Plans) e a eliminação de desperdício financeiro através da identificação e redimensionamento de recursos ociosos (Compute Optimizer)**, o que aumentará a eficiência e a produtividade financeira da empresa. Recomenda-se a continuidade da utilização das ferramentas implementadas e a busca por novas tecnologias que possam melhorar ainda mais os processos da empresa, com foco em migração para arquiteturas *serverless* no futuro.
+A implementação inicial dos serviços AWS na empresa **Abstergo Industries** tem como esperado **a eliminação da dependência de hardware físico local (Capex), a obtenção de uma infraestrutura de TI mais segura e resiliente, e a redução drástica dos custos de manutenção e administração de sistemas (Opex)**. O caminho da migração proporciona à farmácia escalabilidade futura e agilidade para lançar novos serviços online. Recomenda-se a imediata formalização das etapas de migração, começando pela avaliação de *backups* e DR.
 
 ---
 
 ## Anexos
 
-* Planilha de análise de TCO (Custo Total de Propriedade) projetado com a aplicação dos Savings Plans.
-* Relatório de recomendações de redimensionamento gerado pelo AWS Compute Optimizer.
-* Guia de migração de dados do S3 Standard para o S3 Glacier Instant Retrieval.
+* Planilha de Custo Total de Propriedade (TCO) comparando *on-premises* vs. AWS (Lightsail/RDS).
+* Guia de *sizing* para instâncias do Amazon Lightsail.
+* Políticas de Backup e Retenção de Dados no AWS Backup.
 
 Assinatura do Responsável pelo Projeto:
 
